@@ -1,22 +1,36 @@
 # StudentEmplacementApp
 
-An ASP.Net Core Web API that automates the competition and placement process for student admissions into universities, based on the centralized exam scores managed by the State Examination Center (DİM).The placement of students is determined by an algorithm, which is based on the students' program choices and their exam scores.
+**StudentEmplacementApp** is an ASP.NET Core Web API that automates the competition and placement process for student admissions into universities, based on the centralized exam scores managed by the State Examination Center (DİM) of Azerbaijan.  
+The placement of students is determined by an algorithm that evaluates each student's university program choices and their exam scores.
 
+## Features
 
-Features:
+### Student Management
+- Create, read, update, and delete student records
+- Manage student placement preferences
 
-Student Management: Create, read, update, and delete student records and their placement choices.
-Student Placement Algorithm: Algorithm implements student placement.
-JWT Authentication: Secure endpoints with JSON Web Tokens.
-Swagger Documentation: API documentation with Swagger UI
-Entity Framework Core: Manages database operations with SQL Server, including migrations for schema updates.
+### Student Placement Algorithm
+- Implements logic to place students into programs based on their scores and selected preferences
+- Resolves tie cases and respects quota constraints
 
+### JWT Authentication
+- Secures API endpoints using JSON Web Tokens
 
-Technology Stack:
+## Role-Based Access
+The API implements role-based access using JWT authentication with two roles: `Admin` and `Student`.
 
-ASP.NET Core Web API
-Entity Framework Core
-SQL Server
-ASP.NET Core Identity (for JWT authentication)
-AutoMapper (for DTO mapping)
-Swagger/OpenAPI
+### Swagger Documentation
+- Provides API documentation and testing interface with Swagger UI
+
+### Entity Framework
+- Handles all database operations
+- Supports migrations for schema versioning and updates
+
+## Technology Stack
+
+- ASP.NET Core Web API  
+- Entity Framework Core  
+- SQL Server  
+- ASP.NET Core Identity (for JWT authentication)  
+- AutoMapper (for DTO mapping)  
+- Swagger/OpenAPI
