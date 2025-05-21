@@ -1,0 +1,229 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>StudentEmplacementApp</name>
+    </assembly>
+    <members>
+        <member name="T:StudentEmplacementApp.Controllers.AuthController">
+            <summary>
+            Manages user authentication operations, including registration and login for students and admins.
+            </summary>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.AuthController.RegisterStudent(StudentEmplacementApp.DTOs.StudentRegisterDto)">
+            <summary>
+            Registers a student.
+            </summary>
+            <param name="studentDto">The student registration data, including PIN, password, and other details.</param>
+            <returns>A confirmation message and the student ID if successful.</returns>
+            <response code="200">If the student is registered successfully, returns the student ID.</response>
+            <response code="400">If the registration data is invalid, user creation fails, role creation fails, or role assignment fails.</response>
+            <response code="500">If an unexpected error occurs during registration.</response>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.AuthController.RegisterAdmin(StudentEmplacementApp.DTOs.AdminRegisterDto)">
+            <summary>
+            Registers an admin.
+            </summary>
+            <param name="adminDto">The admin registration data, including PIN, password, first name, and last name.</param>
+            <returns>A confirmation message if successful.</returns>
+            <response code="200">If the admin is registered successfully.</response>
+            <response code="400">If the registration data is invalid, user creation fails, role creation fails, or role assignment fails.</response>
+            <response code="500">If an unexpected error occurs during registration.</response>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.AuthController.Login(StudentEmplacementApp.DTOs.UserLoginDto)">
+            <summary>
+            Authenticates a user and returns a JWT token for accessing protected endpoints.
+            </summary>
+            <param name="dto">The login credentials, including PIN and password.</param>
+            <returns>A JWT token if authentication is successful.</returns>
+            <response code="200">If authentication is successful, returns the JWT token.</response>
+            <response code="400">If the login data is invalid.</response>
+            <response code="401">If the PIN or password is incorrect.</response>
+            <response code="500">If an unexpected error occurs during authentication.</response>
+        </member>
+        <member name="T:StudentEmplacementApp.Controllers.ChoiceController">
+            <summary>
+            Manages operations related to choices, such as retrieving all choices or a specific choice by code.
+            </summary>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.ChoiceController.GetAllChoicesAsync">
+            <summary>
+            Retrieves a list of all choices.
+            </summary>
+            <returns>A list of choice objects.</returns>
+            <response code="200">Returns the list of choices (empty if none found).</response>
+            <response code="500">If an unexpected error occurs while retrieving choices.</response>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.ChoiceController.GetChoiceByCodeAsync(System.Int32)">
+            <summary>
+            Retrieves a specific choice by its code.
+            </summary>
+            <param name="code">The unique code of the choice (must be a positive integer).</param>
+            <returns>The choice object if found.</returns>
+            <response code="200">Returns the choice details.</response>
+            <response code="400">If the code is invalid (e.g., non-positive).</response>
+            <response code="404">If no choice is found with the specified code.</response>
+            <response code="500">If an unexpected error occurs while retrieving the choice.</response>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.StudentController.GetStudentAsync(System.String)">
+            <summary>
+            Retrieves a student by their personal identifier (PIN).
+            </summary>
+            <param name="pin">The personal identifier (PIN) of the student (7 alphanumeric characters).</param>
+            <returns>A student object if found; otherwise, a 404 Not Found response.</returns>
+            <response code="200">Returns the student details.</response>
+            <response code="400">If the PIN is null, empty, or invalid.</response>
+            <response code="403">If the user is not authorized to access the student's data.</response>
+            <response code="404">If no student is found with the specified PIN.</response>
+            <response code="500">If an unexpected error occurs.</response>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.StudentController.GetStudentsAsync">
+            <summary>
+            Retrieves all students.
+            </summary>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.StudentController.GetOrderedStudentsAsync">
+            <summary>
+            Retrieves all students ordered by their scores
+            </summary>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.StudentController.GetStudentsWithEmplacementResults">
+            <summary>
+            Retrieves students with emplacement results.
+            </summary>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.StudentController.CodeChoices(StudentEmplacementApp.DTOs.CodeDto)">
+            <summary>
+            Adds list of student choices.
+            </summary>
+            <param name="dto">The data containing the list of choice codes.</param>
+            <returns>A confirmation message if successful.</returns>
+            <response code="200">If the student choices are added or updated successfully.</response>
+            <response code="400">If the provided data is invalid.</response>
+            <response code="401">If the user is not authenticated or the user ID is missing.</response>
+            <response code="403">If the user is not in the Student role.</response>
+            <response code="500">If an unexpected error occurs.</response>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.StudentController.UpdateStudentProfile(StudentEmplacementApp.DTOs.StudentProfileUpdateDto)">
+            <summary>
+            Partially updates the authenticated student's profile (first name, last name, father name, PIN, password).
+            </summary>
+            <param name="dto">The student profile data to update (fields are optional, scores cannot be updated).</param>
+            <returns>A confirmation message if successful.</returns>
+            <response code="200">If the student profile is updated successfully.</response>
+            <response code="400">If the provided data is invalid or missing.</response>
+            <response code="401">If the user is not authenticated or the user ID is missing.</response>
+            <response code="403">If the user is not in the Student role.</response>
+            <response code="404">If the student is not found.</response>
+            <response code="500">If an unexpected error occurs.</response>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.StudentController.UpdateStudentScores(System.Int32,StudentEmplacementApp.DTOs.StudentScoreUpdateDto)">
+            <summary>
+            Partially updates the authenticated student's score(s) (score and secondary score).
+            </summary>
+            <param name="studentId">The ID of the student to update (must be > 0).</param>
+            <param name="dto">The score data to update (at least one field must be provided).</param>
+            <returns>A confirmation message if successful.</returns>
+            <response code="200">If the student scores are updated successfully.</response>
+            <response code="400">If the student ID is invalid, the provided data is invalid, or no score fields are provided.</response>
+            <response code="403">If the user is not in the Admin role.</response>
+            <response code="404">If the student is not found.</response>
+            <response code="500">If an unexpected error occurs.</response>
+        </member>
+        <member name="M:StudentEmplacementApp.Controllers.StudentController.DeleteStudent(System.String)">
+            <summary>
+            Deletes a student by their personal identifier (PIN).
+            </summary>
+            <param name="pin">The personal identifier (PIN) of the student to delete (7 alphanumeric characters).</param>
+            <returns>A confirmation message if successful.</returns>
+            <response code="200">If the student is deleted successfully.</response>
+            <response code="400">If the PIN is null, empty, or invalid.</response>
+            <response code="403">If the user is neither an Admin nor the student with the matching PIN.</response>
+            <response code="404">If the student is not found.</response>
+            <response code="500">If an unexpected error occurs.</response>
+        </member>
+        <member name="T:StudentEmplacementApp.Migrations.InitialCreate">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.InitialCreate.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.InitialCreate.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.InitialCreate.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:StudentEmplacementApp.Migrations.UpdateChoiceModel">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.UpdateChoiceModel.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.UpdateChoiceModel.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.UpdateChoiceModel.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:StudentEmplacementApp.Migrations.AddResultCodeToStudent">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.AddResultCodeToStudent.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.AddResultCodeToStudent.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.AddResultCodeToStudent.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:StudentEmplacementApp.Migrations.AddAvailablePlacesToChoices">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.AddAvailablePlacesToChoices.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.AddAvailablePlacesToChoices.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.AddAvailablePlacesToChoices.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:StudentEmplacementApp.Migrations.AddAuthentication">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.AddAuthentication.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.AddAuthentication.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.AddAuthentication.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:StudentEmplacementApp.Migrations.RemoveRoleFromUser">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.RemoveRoleFromUser.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.RemoveRoleFromUser.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.RemoveRoleFromUser.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="T:StudentEmplacementApp.Migrations.ChangeStudentChoiceDeleteBehavior">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.ChangeStudentChoiceDeleteBehavior.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.ChangeStudentChoiceDeleteBehavior.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:StudentEmplacementApp.Migrations.ChangeStudentChoiceDeleteBehavior.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+    </members>
+</doc>

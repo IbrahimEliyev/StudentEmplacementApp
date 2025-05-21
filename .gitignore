@@ -1,0 +1,13 @@
+# Ignore user-specific files
+*.user
+*.suo
+
+# Ignore build output
+bin/
+obj/
+
+# Ignore local config secrets
+appsettings.json
+
+# Template for configuration
+!appsettings.template.json
